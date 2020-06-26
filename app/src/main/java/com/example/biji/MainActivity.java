@@ -81,12 +81,14 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //设置toolbar取代actionbar
         initPopUpView();
-        myToolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
+        if (super.isNightMode())
+            myToolbar.setNavigationIcon(getDrawable(R.drawable.ic_menu_white_24dp));
+        else myToolbar.setNavigationIcon(getDrawable(R.drawable.ic_menu_black_24dp)); // 三道杠
+
         myToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: shit");
-                showPopUpView();
+                showPopUpWindow();
             }
         });
 
@@ -103,6 +105,17 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
 
     }
 
+    @Override
+    protected void needRefresh() {
+        setNightMode();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra("opMode", 10);
+        startActivity(intent);
+        overridePendingTransition(R.anim.night_switch, R.anim.night_switch_over);
+        if (popupWindow.isShowing()) popupWindow.dismiss();
+        finish();
+    }
+
     public void initPopUpView(){
         layoutInflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         customView = (ViewGroup) layoutInflater.inflate(R.layout.setting_layout, null);
@@ -113,13 +126,19 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         wm.getDefaultDisplay().getMetrics(metrics);
     }
 
-    public void showPopUpView(){
+    public void showPopUpWindow(){
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
 
         popupCover = new PopupWindow(coverView, width, height, false);
-        popupWindow = new PopupWindow(customView, (int) (width * 0.7), height, true);
+        popupWindow = new PopupWindow(customView, (int) (width * 0.7), (height), true);
+        if (isNightMode())
+            popupWindow.setBackgroundDrawable(new ColorDrawable(Color.BLACK));
+        else
         popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        popupWindow.setAnimationStyle(R.style.AnimationFade);
+        popupCover.setAnimationStyle(R.style.AnimationCover);
+
 
 
         //在主界面加载成功之后 显示弹出
@@ -136,6 +155,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                     @Override
                     public void onClick(View v) {
                         startActivity(new Intent(MainActivity.this, UserSettingsActivity.class));
+                        overridePendingTransition(R.anim.in_lefttoright, R.anim.no);
                     }
                 });
 
@@ -143,6 +163,7 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                     @Override
                     public void onClick(View v) {
                         startActivity(new Intent(MainActivity.this, UserSettingsActivity.class));
+                        overridePendingTransition(R.anim.in_lefttoright, R.anim.no);
                     }
                 });
 
@@ -172,6 +193,26 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
         SharedPreferences.Editor editor = sharedPreferences.edit();
         if (!sharedPreferences.contains("nightMode")) {
             editor.putBoolean("nightMode", false);
+            editor.commit();
+        }
+        if (!sharedPreferences.contains("reverseSort")) {
+            editor.putBoolean("reverseSort", false);
+            editor.commit();
+        }
+        if (!sharedPreferences.contains("fabColor")) {
+            editor.putInt("fabColor", -500041);
+            editor.commit();
+        }
+        if(!sharedPreferences.contains("content_switch")) {
+            editor.putBoolean("content_switch", false);
+            editor.commit();
+        }
+        if(!sharedPreferences.contains("fabPlanColor")){
+            editor.putInt("fabPlanColor", -500041);
+            editor.commit();
+        }
+        if(!sharedPreferences.contains("noteTitle")){
+            editor.putBoolean("noteTitle", true);
             editor.commit();
         }
     }

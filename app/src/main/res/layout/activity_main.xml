@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main_layout"
+    android:background="?attr/lvBackground"
     tools:context=".MainActivity">
 
 
@@ -12,13 +14,12 @@
         android:id="@+id/lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="8dp"
         android:layout_below="@+id/myToolbar"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="10dp"
         android:divider="?attr/lvBackground"
-        android:dividerHeight="8dp"
-        >
+        android:dividerHeight="8dp">
 
     </ListView>
 
@@ -28,13 +29,12 @@
         android:layout_height="?attr/actionBarSize"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
-        app:titleTextColor="?attr/titleColor"
         android:theme="?attr/toolbarTheme"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:titleTextColor="?attr/titleColor">
         >
 
     </androidx.appcompat.widget.Toolbar>
-
 
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -47,7 +47,6 @@
         android:layout_marginBottom="48dp"
         android:clickable="true"
         android:focusable="true"
-        android:src="@drawable/ic_add_white_24dp"
-        />
+        android:src="@drawable/ic_add_white_24dp" />
 
 </RelativeLayout>

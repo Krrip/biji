@@ -40,7 +40,8 @@ public class EditActivity extends BaseActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true); //设置toolbar取代actionbar
-
+        if(isNightMode()) myToolbar.setNavigationIcon(getDrawable(R.drawable.ic_keyboard_arrow_left_white_24dp));
+        else myToolbar.setNavigationIcon(getDrawable(R.drawable.ic_keyboard_arrow_left_black_24dp));
         myToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +65,13 @@ public class EditActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void needRefresh() {
+        setNightMode();
+        startActivity(new Intent(this, EditActivity.class));
+        overridePendingTransition(R.anim.night_switch, R.anim.night_switch_over);
+        finish();
+    }
 
 
     @Override

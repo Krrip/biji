@@ -5,10 +5,12 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
 import androidx.appcompat.widget.Toolbar;
+import static android.preference.PreferenceManager.getDefaultSharedPreferences;
 
 public class UserSettingsActivity extends BaseActivity {
 
@@ -21,8 +23,11 @@ public class UserSettingsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.preference_layout);
 
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        sharedPreferences = getDefaultSharedPreferences(getBaseContext());
         Intent intent = getIntent();
+        if(intent.getExtras() != null) night_change = intent.getBooleanExtra("night_change", false);
+        else night_change = false;
+
         /*
         if(intent.getExtras() != null) night_change = intent.getBooleanExtra("night_change", false);
         else night_change = false;
@@ -38,6 +43,11 @@ public class UserSettingsActivity extends BaseActivity {
         else myToolbar.setNavigationIcon(getDrawable(R.drawable.ic_settings_black_24dp));
     }
 
+    @Override
+    protected void needRefresh() {
+
+    }
+
     public void initView(){
         nightMode = findViewById(R.id.nightMode);
         nightMode.setChecked(sharedPreferences.getBoolean("nightMode", false));
@@ -46,6 +56,8 @@ public class UserSettingsActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 setNightModePref(isChecked);
                 setSelfNightMode();
+                SharedPreferences sharedPreferences = getDefaultSharedPreferences(getBaseContext());
+                boolean temp = false;
 
             }
         });
@@ -64,9 +76,24 @@ public class UserSettingsActivity extends BaseActivity {
 
         super.setNightMode();
         Intent intent = new Intent(this, UserSettingsActivity.class);
-        //intent.putExtra("night_change", !night_change); //重启一次，正负颠倒。最终为正值时重启MainActivity。
+        intent.putExtra("night_change", !night_change); //重启一次，正负颠倒。最终为正值时重启MainActivity。
 
-        startActivity(intent);
+        startActivity(new Intent(this, UserSettingsActivity.class));
+        overridePendingTransition(R.anim.night_switch, R.anim.night_switch_over);
         finish();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            Intent intent = new Intent();
+            intent.setAction("NIGHT_SWITCH");
+            sendBroadcast(intent);
+            finish();
+            overridePendingTransition(R.anim.in_lefttoright, R.anim.out_lefttoright);
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
     }
 }
