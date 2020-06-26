@@ -1,5 +1,7 @@
 package com.example.biji;
 
+import android.app.Service;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
@@ -14,6 +17,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class EditActivity extends BaseActivity {
 
@@ -33,8 +38,24 @@ public class EditActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //showKetboard(View ,et);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_layout);
+        et = findViewById(R.id.et);
+        //自动弹出键盘
+        et.setFocusable(true);
+        et.setFocusableInTouchMode(true);
+        et.requestFocus();
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+                           public void run() {
+                               InputMethodManager inputManager = (InputMethodManager)EditActivity.this. getSystemService(Context.INPUT_METHOD_SERVICE);
+                               inputManager.showSoftInput(et, 0);
+                           }
+                       },
+                800);
+//        InputMethodManager imm = (InputMethodManager)EditActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.showSoftInput(et, 0);
 
         myToolbar = findViewById(R.id.my_Toolbar);
         setSupportActionBar(myToolbar);
@@ -50,7 +71,9 @@ public class EditActivity extends BaseActivity {
                 finish();
             }
         });
-        et = findViewById(R.id.et);
+
+
+
         Intent getIntent = getIntent();
         openMode = getIntent.getIntExtra("mode", 0);
 
@@ -61,6 +84,7 @@ public class EditActivity extends BaseActivity {
             old_Tag = getIntent.getIntExtra("tag", 1);
             et.setText(old_content);
             et.setSelection(old_content.length());
+
 
         }
     }
@@ -113,7 +137,14 @@ public class EditActivity extends BaseActivity {
 
 
 
-
+//public static void showKetboard(View et){
+//    InputMethodManager imm = (InputMethodManager)et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//    if(imm != null){
+//        et.requestFocus();
+//        imm.showSoftInput(et,0);
+//
+//    }
+//}
 
     public boolean onKeyDown(int keyCode, KeyEvent event){
         if (keyCode == KeyEvent.KEYCODE_HOME){

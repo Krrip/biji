@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/lvBackground"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
 
     <androidx.appcompat.widget.Toolbar
@@ -23,7 +24,7 @@
     <EditText
         android:id="@+id/et"
         android:layout_width="match_parent"
-        android:layout_height="669dp"
+        android:layout_height="675dp"
         android:gravity="top">
 
     </EditText>

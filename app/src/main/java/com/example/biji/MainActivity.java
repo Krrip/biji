@@ -1,5 +1,6 @@
 package com.example.biji;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -100,6 +102,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                 Intent intent = new Intent(MainActivity.this, EditActivity.class);
                 intent.putExtra("mode", 4);
                 startActivityForResult(intent, 0);
+
+
             }
         });
 
