@@ -64,6 +64,8 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
     private DisplayMetrics metrics;
     private TextView setting_text;
     private ImageView setting_image;
+    private TextView pass;
+    private ImageView passimg;
 
 
     @Override
@@ -154,7 +156,9 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
 
                 setting_image = customView.findViewById(R.id.setting_settings_image);
                 setting_text = customView.findViewById(R.id.setting_settings_text);
-
+                pass = customView.findViewById(R.id.pass);
+                passimg = customView.findViewById(R.id.passimg);
+//弹出菜单点击
                 setting_image.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -170,6 +174,16 @@ public class MainActivity extends BaseActivity implements AdapterView.OnItemClic
                         overridePendingTransition(R.anim.in_lefttoright, R.anim.no);
                     }
                 });
+
+                pass.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                        overridePendingTransition(R.anim.in_lefttoright, R.anim.no);
+                    }
+                });
+
+
 
                 coverView.setOnTouchListener(new View.OnTouchListener() {
                     @Override

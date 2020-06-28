@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">记事本</string>
     <string name="pref_night_summary">点击设置黑夜模式</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
 
 </resources>
