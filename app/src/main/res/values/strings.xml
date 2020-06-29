@@ -3,5 +3,6 @@
     <string name="pref_night_summary">点击设置黑夜模式</string>
     <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="shortcut_add_short">添加笔记</string>
 
 </resources>
